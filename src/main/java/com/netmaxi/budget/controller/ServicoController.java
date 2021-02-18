@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class ServicoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Servico> criar(@RequestBody Servico servico, HttpServletResponse response) {
+	public ResponseEntity<Servico> criar(@Valid @RequestBody Servico servico, HttpServletResponse response) {
 		Servico servicoCriado = servicoRepository.save(servico);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
 				.buildAndExpand(servicoCriado.getId()).toUri();

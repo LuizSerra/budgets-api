@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="servico")
@@ -15,10 +17,16 @@ public class Servico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String nome;
+	@Size(min = 3, max = 200)
 	private String descricao;
+	@NotNull
 	private String unidade;
-	private BigDecimal valor_unitario;
+	@NotNull
+	private BigDecimal valorUnitario;
+	
 	
 	public Long getId() {
 		return id;
@@ -44,12 +52,13 @@ public class Servico {
 	public void setUnidade(String unidade) {
 		this.unidade = unidade;
 	}
-	public BigDecimal getValor_unitario() {
-		return valor_unitario;
+	public BigDecimal getValorUnitario() {
+		return valorUnitario;
 	}
-	public void setValor_unitario(BigDecimal valor_unitario) {
-		this.valor_unitario = valor_unitario;
+	public void setValorUnitario(BigDecimal valorUnitario) {
+		this.valorUnitario = valorUnitario;
 	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
