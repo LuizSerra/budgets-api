@@ -1,57 +1,50 @@
 package com.netmaxi.budget.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-@Entity
-public class Cliente {
+@Entity(name = "item_servico")
+public class ItemServico {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotNull
-	private String nome;
-	@NotNull
-	private String cpf;
-	@NotNull
-	private String telefone;
-	@NotNull
-	@Email
-	private String email;
 	
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_orcamento", nullable = false)
+	private Orcamento orcamento;
+	
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_servico", nullable = false)
+	private Servico servico;
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getNome() {
-		return nome;
+
+	public Orcamento getOrcamento() {
+		return orcamento;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+
+	public void setOrcamento(Orcamento orcamento) {
+		this.orcamento = orcamento;
 	}
-	public String getCpf() {
-		return cpf;
+
+	public Servico getServico() {
+		return servico;
 	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	public String getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email; 
+
+	public void setServico(Servico servico) {
+		this.servico = servico;
 	}
 
 	@Override
@@ -61,6 +54,7 @@ public class Cliente {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -69,7 +63,7 @@ public class Cliente {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cliente other = (Cliente) obj;
+		ItemServico other = (ItemServico) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -77,5 +71,5 @@ public class Cliente {
 			return false;
 		return true;
 	}
-	
+
 }
