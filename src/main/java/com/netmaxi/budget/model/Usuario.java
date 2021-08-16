@@ -26,7 +26,7 @@ public class Usuario {
 	private boolean ativo;
 
 	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinTable(name="usuario_papeis", joinColumns=@JoinColumn(name="idUsuario"),
+	@JoinTable(name="usuario_papel", joinColumns=@JoinColumn(name="id_usuario"),
 	inverseJoinColumns=@JoinColumn(name="id_papel"))
 	private List<Papel> papeis;
 	

@@ -1,16 +1,12 @@
 package com.netmaxi.budget.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.netmaxi.budget.model.Usuario;
@@ -22,51 +18,49 @@ public class UsuarioService {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 
-	public List<Usuario> getAllUsers(Integer pageNo, Integer pageSize, String sortBy) {
-		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
-		Page<Usuario> pagedResult = usuarioRepository.findAll(paging);
-		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
-		} else {
-			return new ArrayList<Usuario>();
-		}
+	public Page<Usuario> listar(String search, Pageable pagination) {
+		if (search == null)
+			return usuarioRepository.findAll(pagination);
+		return usuarioRepository.findByNomeContaining(search, pagination);
 	}
 
-	public List<Usuario> getAllUsersActive(Integer pageNo, Integer pageSize, String sortBy) {
-		Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
-
-		Page<Usuario> pagedResult = usuarioRepository.findByAtivoTrue(paging);
-
-		if (pagedResult.hasContent()) {
-			return pagedResult.getContent();
-		} else {
-			return new ArrayList<Usuario>();
-		}
+	public Page<Usuario> getAllUsersActive(String search, Pageable pagination) {
+		if (search == null)
+			return usuarioRepository.findByAtivoTrue(pagination);
+		return usuarioRepository.findByNomeContainingAndAtivoTrue(search, pagination);
+	}
+	
+	public Optional<Usuario> getUsuarioPorId(Long id) {
+		return usuarioRepository.findById(id);
 	}
 
-	public Usuario create(Usuario usuario) {
+	public Usuario criar(Usuario usuario) {
 		usuario.setAtivo(true);
 		return usuarioRepository.save(usuario);
 	}
 
-	public Usuario update(Long id, Usuario usuario) {
-		Usuario usuarioEncontrado = findById(id);
-
-		BeanUtils.copyProperties(usuario, usuarioEncontrado, "id");
-		return usuarioRepository.save(usuarioEncontrado);
+	public Usuario atualizar(Long id, Usuario usuario) {
+		Optional<Usuario> usuarioBuscado = getUsuarioPorId(id);
+		Usuario usuarioEncontrado = null;
+		if (usuarioBuscado.isPresent()) {
+			usuarioEncontrado = usuarioBuscado.get();
+			BeanUtils.copyProperties(usuario, usuarioEncontrado, "id");
+			return usuarioRepository.save(usuarioEncontrado);
+		}
+		return usuarioEncontrado;
 	}
 
 	public void delete(Long id) {
-		Usuario usuarioEncontrado = findById(id);
-		if (usuarioEncontrado == null) {
+		Optional<Usuario> usuarioEncontrado = getUsuarioPorId(id);
+		if (!usuarioEncontrado.isPresent()) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		usuarioRepository.delete(usuarioEncontrado);
+		usuarioEncontrado.get().setAtivo(false);
+		usuarioRepository.delete(usuarioEncontrado.get());
 	}
 
-	public Usuario updateStatus(Long id, boolean ativo) {
-		Optional<Usuario> usuarioEncontrado = usuarioRepository.findById(id);
+	public Usuario atualizarStatus(Long id, boolean ativo) {
+		Optional<Usuario> usuarioEncontrado = getUsuarioPorId(id);
 		if (usuarioEncontrado == null) {
 			throw new EmptyResultDataAccessException(1);
 		}
@@ -76,16 +70,5 @@ public class UsuarioService {
 		return usuario;
 
 	}
-
-	public Usuario findById(Long id) {
-		Optional<Usuario> usuarioAtualizado = usuarioRepository.findById(id);
-		if (usuarioAtualizado == null) {
-			throw new EmptyResultDataAccessException(1);
-		}
-		return usuarioAtualizado.get();
-	}
-
-
-
 
 }

@@ -1,5 +1,7 @@
 package com.netmaxi.budget.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity(name = "item_servico")
 public class ItemServico {
@@ -14,6 +17,13 @@ public class ItemServico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	private double quantidade;
+	
+	private  BigDecimal valorUnitario;
+	
+	@Transient
+	private BigDecimal valorTotal;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_orcamento", nullable = false)
@@ -29,6 +39,30 @@ public class ItemServico {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public double getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(double quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public BigDecimal getValorUnitario() {
+		return valorUnitario;
+	}
+
+	public void setValorUnitario(BigDecimal valorUnitario) {
+		this.valorUnitario = valorUnitario;
+	}
+
+	public BigDecimal getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(BigDecimal valorTotal) {
+		this.valorTotal = valorTotal;
 	}
 
 	public Orcamento getOrcamento() {
