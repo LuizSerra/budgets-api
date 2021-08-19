@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,6 +42,7 @@ public class Orcamento {
 
 	private String observacao;
 
+	@Transient
 	private BigDecimal valorFinal;
 
 	private boolean ativo;
@@ -103,7 +105,11 @@ public class Orcamento {
 	}
 
 	public BigDecimal getValorFinal() {
-		return valorFinal;
+		if (getItens().isEmpty() || getItens() == null)
+			return BigDecimal.ZERO;
+		double valor = getItens().stream()
+				.mapToDouble(item -> item.getServico().getValorUnitario().doubleValue() * item.getQuantidade()).sum();
+		return BigDecimal.valueOf(valor);
 	}
 
 	public void setValorFinal(BigDecimal valorFinal) {

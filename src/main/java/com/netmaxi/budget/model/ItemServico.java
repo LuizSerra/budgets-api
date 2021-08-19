@@ -59,7 +59,7 @@ public class ItemServico {
 	}
 
 	public BigDecimal getValorTotal() {
-		return valorTotal;
+		return BigDecimal.valueOf(this.quantidade * this.servico.getValorUnitario().doubleValue());
 	}
 
 	public void setValorTotal(BigDecimal valorTotal) {
