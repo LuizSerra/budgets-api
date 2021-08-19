@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -43,6 +42,7 @@ public class Orcamento {
 	private String observacao;
 
 	@Transient
+	@JsonIgnore
 	private BigDecimal valorFinal;
 
 	private boolean ativo;
@@ -53,7 +53,7 @@ public class Orcamento {
 	@JsonIgnore
 	private Usuario usuario;
 
-	@OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "orcamento", fetch = FetchType.LAZY)
 	List<ItemServico> itens;
 
 	public Long getId() {

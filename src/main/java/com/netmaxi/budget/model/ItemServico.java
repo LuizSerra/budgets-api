@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "itemServico")
 @Table(name="item_servico")
@@ -30,15 +31,18 @@ public class ItemServico {
 	private double quantidade;
 	
 	@Transient
+	@JsonIgnore
 	private BigDecimal valorTotal;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_orcamento", nullable = false, insertable = false, updatable = false)
+	@JsonIgnoreProperties("itens")
 	@JsonIgnore
 	private Orcamento orcamento;
 	
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_servico", nullable = false, insertable = false, updatable = false)
+	@JsonIgnoreProperties("itens")
 	@JsonIgnore
 	private Servico servico;
 	
@@ -97,6 +101,13 @@ public class ItemServico {
 
 			@Column(name = "id_servico", nullable = false)
 			private Long idServico;
+			
+			public Id() {}
+
+			public Id(Long idOrcamento, Long idServico) {
+				this.idOrcamento = idOrcamento;
+				this.idServico = idServico;
+			}
 
 			public Long getIdOrcamento() {
 				return idOrcamento;

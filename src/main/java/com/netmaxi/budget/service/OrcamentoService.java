@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.netmaxi.budget.model.Orcamento;
+import com.netmaxi.budget.model.StatusOrcamento;
 import com.netmaxi.budget.repository.OrcamentoRepository;
 
 @Service
@@ -37,6 +38,7 @@ public class OrcamentoService {
 
 	public Orcamento criar(Orcamento orcamento) {
 		orcamento.setAtivo(true);
+		orcamento.setStatus(StatusOrcamento.NOVO);
 		orcamento.setDataAbertura(LocalDate.now());
 		return orcamentoRepository.save(orcamento);
 	}
@@ -46,7 +48,7 @@ public class OrcamentoService {
 		Orcamento orcamentoEncontrado = null;
 		if (orcamentoBuscado.isPresent()) {
 			orcamentoEncontrado = orcamentoBuscado.get();
-			BeanUtils.copyProperties(orcamento, orcamentoEncontrado, "id");
+			BeanUtils.copyProperties(orcamento, orcamentoEncontrado, "valorFinal", "id");
 			return orcamentoRepository.save(orcamentoEncontrado);
 		}
 		return orcamentoEncontrado;

@@ -40,19 +40,19 @@ public class OrcamentoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getUsuarioPorId(@PathVariable Long id) {
+	public ResponseEntity<?> getOrcamentoPorId(@PathVariable Long id) {
 		Optional<Orcamento> orcamentoEncontrado = orcamentoService.getOrcamentoPorId(id);
 		return orcamentoEncontrado.isPresent() ? ResponseEntity.ok(new OrcamentoDTO(orcamentoEncontrado.get())) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");  
 	}
 	
-	@GetMapping("/papel/{id}")
-	public ResponseEntity<Page<OrcamentoDTO>> listarUsuarioPorPapelId(@PathVariable Long id, Pageable pagination) {
+	@GetMapping("/usuario/{id}")
+	public ResponseEntity<Page<OrcamentoDTO>> listarOrcamentoPorUsuarioId(@PathVariable Long id, Pageable pagination) {
 		Page<OrcamentoDTO> orcamentos = OrcamentoDTO.convertToOrcamentoDTOList(orcamentoService.listarOrcamentoPorUsuarioId(id, pagination));
         return !orcamentos.isEmpty() ? ResponseEntity.ok(orcamentos) : ResponseEntity.noContent().build(); 
 	}
 	
 	@PostMapping
-	public ResponseEntity<Orcamento> criar(@Valid @RequestBody Orcamento orcamento, HttpServletResponse response) {
+	public ResponseEntity<Orcamento> criar(@RequestBody Orcamento orcamento, HttpServletResponse response) {
 		Orcamento orcamentoCriado = orcamentoService.criar(orcamento);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
 				.buildAndExpand(orcamentoCriado.getId()).toUri();
