@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 
 import com.netmaxi.budget.model.Orcamento;
 import com.netmaxi.budget.model.Papel;
-import com.netmaxi.budget.model.Servico;
 import com.netmaxi.budget.model.Usuario;
 
 public class UsuarioDTO {
@@ -18,7 +17,7 @@ public class UsuarioDTO {
 	private String senha;
 	private boolean ativo;
 	private List<Papel> papeis;
-	private Set<Orcamento> orcamento;
+	private Set<Orcamento> orcamentos;
 	
 	public UsuarioDTO(Usuario usuario) {
 		super();
@@ -28,7 +27,7 @@ public class UsuarioDTO {
 		this.senha = usuario.getSenha();
 		this.ativo = usuario.isAtivo();
 		this.papeis = usuario.getPapeis();
-		this.orcamento = usuario.getOrcamento();
+		this.orcamentos = usuario.getOrcamentos();
 	}
 
 	public Long getId() {
@@ -55,8 +54,8 @@ public class UsuarioDTO {
 		return papeis;
 	}
 
-	public Set<Orcamento> getOrcamento() {
-		return orcamento;
+	public Set<Orcamento> getOrcamentos() {
+		return orcamentos;
 	}
 
 	public static Page<UsuarioDTO> convertToUsuarioDTOList(Page<Usuario> usuarios) {

@@ -10,6 +10,9 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity(name="papel")
 public class Papel {
 	
@@ -20,6 +23,8 @@ public class Papel {
 	private String nome;
 	
 	@ManyToMany(mappedBy="papeis")
+	@JsonIgnoreProperties("papeis")
+	@JsonIgnore
     private List<Usuario> usuarios;
 
 	public Long getId() {

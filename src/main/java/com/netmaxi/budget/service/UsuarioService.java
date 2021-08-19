@@ -18,18 +18,18 @@ public class UsuarioService {
 	@Autowired
 	UsuarioRepository usuarioRepository;
 
-	public Page<Usuario> listar(String search, Pageable pagination) {
+	public Page<Usuario> listar(String search, Boolean ativo, Pageable pagination) {
+
 		if (search == null)
-			return usuarioRepository.findAll(pagination);
-		return usuarioRepository.findByNomeContaining(search, pagination);
+			return ativo == null ? usuarioRepository.findAll(pagination)
+					: ativo ? usuarioRepository.findByAtivoTrue(pagination)
+							: usuarioRepository.findByAtivoFalse(pagination);
+
+		return ativo == null ? usuarioRepository.findByNomeContaining(search, pagination)
+				: ativo ? usuarioRepository.findByNomeContainingAndAtivoTrue(search, pagination)
+						: usuarioRepository.findByNomeContainingAndAtivoFalse(search, pagination);
 	}
 
-	public Page<Usuario> getAllUsersActive(String search, Pageable pagination) {
-		if (search == null)
-			return usuarioRepository.findByAtivoTrue(pagination);
-		return usuarioRepository.findByNomeContainingAndAtivoTrue(search, pagination);
-	}
-	
 	public Optional<Usuario> getUsuarioPorId(Long id) {
 		return usuarioRepository.findById(id);
 	}
@@ -69,6 +69,10 @@ public class UsuarioService {
 		usuario = usuarioRepository.save(usuario);
 		return usuario;
 
+	}
+
+	public Page<Usuario> listarUsuarioPorPapelId(Long idPapel, Pageable pagination) {
+		return usuarioRepository.findByPapeis_Id(idPapel, pagination);
 	}
 
 }

@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity(name = "orcamento")
 public class Orcamento {
 	
@@ -30,7 +33,7 @@ public class Orcamento {
 	@NotNull
 	private LocalDate dataAbertura;
 	
-	@NotNull
+	
 	private LocalDate dataFechamento;
 	
 	@NotNull
@@ -41,8 +44,12 @@ public class Orcamento {
 	
 	private BigDecimal valorFinal;
 	
+	private boolean ativo;
+	
 	@ManyToOne(fetch = FetchType.LAZY)  
 	@JoinColumn(name = "id_usuario")
+	@JsonIgnoreProperties("orcamentos")
+	@JsonIgnore
     private Usuario usuario;
 	
 	@OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -119,6 +126,13 @@ public class Orcamento {
 	public void setItens(List<ItemServico> itens) {
 		this.itens = itens;
 	}
+	public boolean isAtivo() {
+		return ativo;
+	}
+	
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 
 	@Override
 	public int hashCode() {
@@ -144,6 +158,7 @@ public class Orcamento {
 			return false;
 		return true;
 	}
+
 
 	
 

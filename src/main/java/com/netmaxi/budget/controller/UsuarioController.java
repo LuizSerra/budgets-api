@@ -39,22 +39,21 @@ public class UsuarioController {
 	
 	
 	@GetMapping
-	public ResponseEntity<Page<UsuarioDTO>> listar(String search, Pageable pagination) {
-		Page<UsuarioDTO> usuarios = UsuarioDTO.convertToUsuarioDTOList(usuarioService.listar(search, pagination));
+	public ResponseEntity<Page<UsuarioDTO>> listar(String search, Boolean ativo, Pageable pagination) {
+		Page<UsuarioDTO> usuarios = UsuarioDTO.convertToUsuarioDTOList(usuarioService.listar(search, ativo, pagination));
         return !usuarios.isEmpty() ? ResponseEntity.ok(usuarios) : ResponseEntity.noContent().build();
 	}
 	
-	@GetMapping("/ativos")
-    public ResponseEntity<Page<UsuarioDTO>> getAllUsersActive(String search, Pageable pagination) 
-    {
-        Page<UsuarioDTO> usuarios = UsuarioDTO.convertToUsuarioDTOList(usuarioService.getAllUsersActive(search, pagination));
-        return !usuarios.isEmpty() ? ResponseEntity.ok(usuarios) : ResponseEntity.noContent().build();
-    }
-	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getServicoPorId(@PathVariable Long id) {
+	public ResponseEntity<?> getUsuarioPorId(@PathVariable Long id) {
 		Optional<Usuario> usuarioEncontrado = usuarioService.getUsuarioPorId(id);
 		return usuarioEncontrado.isPresent() ? ResponseEntity.ok(new UsuarioDTO(usuarioEncontrado.get())) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");  
+	}
+	
+	@GetMapping("/papel/{idPapel}")
+	public ResponseEntity<Page<UsuarioDTO>> listarUsuarioPorPapelId(@PathVariable Long idPapel, Pageable pagination) {
+		Page<UsuarioDTO> usuarios = UsuarioDTO.convertToUsuarioDTOList(usuarioService.listarUsuarioPorPapelId(idPapel, pagination));
+        return !usuarios.isEmpty() ? ResponseEntity.ok(usuarios) : ResponseEntity.noContent().build(); 
 	}
 	
 	@PostMapping

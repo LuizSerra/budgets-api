@@ -3,19 +3,19 @@ package com.netmaxi.budget.model;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name="servico")
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+@Entity(name="servico")
 public class Servico {
 	
 	@Id
@@ -31,8 +31,11 @@ public class Servico {
 	@NotNull
 	private BigDecimal valorUnitario;
 	
-	@OneToMany(mappedBy = "servico", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	List<ItemServico> itens;
+	private boolean ativo;
+	
+	@OneToMany(mappedBy = "servico")
+	@JsonIgnoreProperties("servico")
+	private List<ItemServico> itens;
 
 	public Long getId() {
 		return id;
@@ -80,6 +83,14 @@ public class Servico {
 
 	public void setItens(List<ItemServico> itens) {
 		this.itens = itens;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 	@Override

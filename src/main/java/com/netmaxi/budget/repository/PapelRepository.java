@@ -8,6 +8,6 @@ import com.netmaxi.budget.model.Papel;
 
 public interface PapelRepository extends PagingAndSortingRepository<Papel, Long> {
 	
-	Page<Papel> findByNome(String search, Pageable pagination);
+	Page<Papel> findByNomeContaining(String search, Pageable pagination);
 
 }

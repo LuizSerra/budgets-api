@@ -20,7 +20,7 @@ public class PapelService {
 
 		if (search == null)
 			return papelRepository.findAll(pagination);
-		return papelRepository.findByNome(search, pagination);
+		return papelRepository.findByNomeContaining(search, pagination);
 	}
 
 	public Optional<Papel> getPapelPorId(Long id) {

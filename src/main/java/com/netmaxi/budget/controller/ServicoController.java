@@ -33,8 +33,8 @@ public class ServicoController {
 	private ServicoService servicoService;
 
 	@GetMapping
-	public ResponseEntity<Page<ServicoDTO>> listar(String search, Pageable pagination) {
-		Page<ServicoDTO> servicos = ServicoDTO.convertToServicoDTOList(servicoService.listar(search, pagination));
+	public ResponseEntity<Page<ServicoDTO>> listar(String search, Boolean ativo, Pageable pagination) {
+		Page<ServicoDTO> servicos = ServicoDTO.convertToServicoDTOList(servicoService.listar(search, ativo, pagination));
         return !servicos.isEmpty() ? ResponseEntity.ok(servicos) : ResponseEntity.noContent().build();
 	}
 	
