@@ -63,12 +63,7 @@ public class ServicoController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remover(@PathVariable Long id) {
-		Optional<Servico> servicoBuscado = servicoService.getServicoPorId(id);
-		if(servicoBuscado.isPresent()) {
-			servicoService.delete(servicoBuscado.get());
-			return ResponseEntity.ok().build();
-		}
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado");  
+		return servicoService.delete(id);  
 	}
 	
 }

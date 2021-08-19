@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.netmaxi.budget.model.Usuario;
@@ -50,18 +52,20 @@ public class UsuarioService {
 		return usuarioEncontrado;
 	}
 
-	public void delete(Long id) {
-		Optional<Usuario> usuarioEncontrado = getUsuarioPorId(id);
-		if (!usuarioEncontrado.isPresent()) {
-			throw new EmptyResultDataAccessException(1);
+	public ResponseEntity<?> delete(Long id) {
+		Optional<Usuario> usuarioBuscado = getUsuarioPorId(id);
+		if(usuarioBuscado.isPresent()) {
+			Usuario usuarioEncontrado = usuarioBuscado.get();
+			usuarioEncontrado.setAtivo(false);
+			usuarioRepository.save(usuarioEncontrado);
+			return ResponseEntity.ok().build();
 		}
-		usuarioEncontrado.get().setAtivo(false);
-		usuarioRepository.delete(usuarioEncontrado.get());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado"); 
 	}
 
 	public Usuario atualizarStatus(Long id, boolean ativo) {
 		Optional<Usuario> usuarioEncontrado = getUsuarioPorId(id);
-		if (usuarioEncontrado == null) {
+		if (!usuarioEncontrado.isPresent()) {
 			throw new EmptyResultDataAccessException(1);
 		}
 		Usuario usuario = usuarioEncontrado.get();

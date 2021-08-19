@@ -24,7 +24,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.netmaxi.budget.controller.dto.UsuarioDTO;
 import com.netmaxi.budget.model.Usuario;
-import com.netmaxi.budget.repository.UsuarioRepository;
 import com.netmaxi.budget.service.UsuarioService;
 
 @RestController
@@ -33,11 +32,7 @@ public class UsuarioController {
 	
 	@Autowired
 	UsuarioService usuarioService;
-	
-	@Autowired
-    UsuarioRepository usuarioRepository;
-	
-	
+		
 	@GetMapping
 	public ResponseEntity<Page<UsuarioDTO>> listar(String search, Boolean ativo, Pageable pagination) {
 		Page<UsuarioDTO> usuarios = UsuarioDTO.convertToUsuarioDTOList(usuarioService.listar(search, ativo, pagination));
@@ -83,9 +78,8 @@ public class UsuarioController {
 		return ResponseEntity.created(uri).body(usuarioAtualizado);
 	}
 	
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletar(@PathVariable Long id){
-		usuarioService.delete(id);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> remover(@PathVariable Long id) {
+		return usuarioService.delete(id); 
 	}
 }

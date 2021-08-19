@@ -6,6 +6,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.netmaxi.budget.model.Servico;
@@ -47,9 +49,15 @@ public class ServicoService {
 		return servicoEncontrado;
 	}
 
-	public void delete(Servico servico) {
-		servico.setAtivo(false);
-		servicoRepository.save(servico);
+	public ResponseEntity<?> delete(Long id) {
+		Optional<Servico> servicoBuscado = getServicoPorId(id);
+		if(servicoBuscado.isPresent()) {
+			Servico servicoEncontrado = servicoBuscado.get();
+			servicoEncontrado.setAtivo(false);
+			servicoRepository.save(servicoEncontrado);
+			return ResponseEntity.ok().build();
+		}
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não encontrado"); 
 	}
 
 }

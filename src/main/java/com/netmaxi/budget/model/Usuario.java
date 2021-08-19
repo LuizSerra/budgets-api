@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "usuario")
@@ -31,10 +32,12 @@ public class Usuario {
 	@JoinTable(name="usuario_papel", joinColumns=@JoinColumn(name="id_usuario"),
 	inverseJoinColumns=@JoinColumn(name="id_papel"))
 	@JsonIgnoreProperties("usuarios")
+	@JsonIgnore
 	private List<Papel> papeis;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("usuario")
+	@JsonIgnore
 	private Set<Orcamento> orcamentos;
 
 	public Long getId() {

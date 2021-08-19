@@ -22,36 +22,35 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "orcamento")
 public class Orcamento {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	private String nome;
-	
+
 	@NotNull
 	private LocalDate dataAbertura;
-	
-	
+
 	private LocalDate dataFechamento;
-	
+
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private StatusOrcamento status;
-	
+
 	private String observacao;
-	
+
 	private BigDecimal valorFinal;
-	
+
 	private boolean ativo;
-	
-	@ManyToOne(fetch = FetchType.LAZY)  
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario")
 	@JsonIgnoreProperties("orcamentos")
 	@JsonIgnore
-    private Usuario usuario;
-	
+	private Usuario usuario;
+
 	@OneToMany(mappedBy = "orcamento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	List<ItemServico> itens;
 
@@ -126,10 +125,11 @@ public class Orcamento {
 	public void setItens(List<ItemServico> itens) {
 		this.itens = itens;
 	}
+
 	public boolean isAtivo() {
 		return ativo;
 	}
-	
+
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
@@ -158,8 +158,5 @@ public class Orcamento {
 			return false;
 		return true;
 	}
-
-
-	
 
 }
