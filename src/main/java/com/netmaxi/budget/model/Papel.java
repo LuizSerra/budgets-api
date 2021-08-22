@@ -10,12 +10,16 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name="papel")
-public class Papel {
+public class Papel implements GrantedAuthority {
 	
+	private static final long serialVersionUID = -4337311346832796742L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	private Long id;
@@ -74,6 +78,11 @@ public class Papel {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String getAuthority() {
+		return this.nome;
 	}
 	
 	
