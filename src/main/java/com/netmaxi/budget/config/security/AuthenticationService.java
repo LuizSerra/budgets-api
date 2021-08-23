@@ -16,10 +16,10 @@ public class AuthenticationService implements UserDetailsService {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
+
 		Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
 		if (usuario.isPresent())
 			return usuario.get();

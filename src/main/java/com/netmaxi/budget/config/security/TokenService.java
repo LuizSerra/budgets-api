@@ -16,23 +16,26 @@ public class TokenService {
 
 	@Value("${forum.jwt.expiration}")
 	private String expiration;
-	
+
 	@Value("${forum.jwt.secret}")
 	private String secret;
-	
+
 	public String gerarToken(Authentication authenticate) {
-		Usuario usuario  = (Usuario) authenticate.getPrincipal();
+		Usuario usuario = (Usuario) authenticate.getPrincipal();
 		Date dataCriacao = new Date();
 		Date dataExpiracao = new Date(dataCriacao.getTime() + Long.valueOf(expiration));
-				
-		
-		return Jwts.builder()
-				.setIssuer("BUDGET_API")
-				.setSubject(usuario.getId().toString())
-				.setIssuedAt(dataCriacao)
-				.setExpiration(dataExpiracao)
-				.signWith(SignatureAlgorithm.HS256, secret)
-				.compact();
+
+		return Jwts.builder().setIssuer("BUDGET_API").setSubject(usuario.getId().toString()).setIssuedAt(dataCriacao)
+				.setExpiration(dataExpiracao).signWith(SignatureAlgorithm.HS256, secret).compact();
+	}
+
+	public boolean isValidToken(String token) {
+		try {
+			Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }
