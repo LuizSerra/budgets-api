@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.netmaxi.budget.model.Usuario;
@@ -38,6 +39,7 @@ public class UsuarioService {
 
 	public Usuario criar(Usuario usuario) {
 		usuario.setAtivo(true);
+		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 		return usuarioRepository.save(usuario);
 	}
 
