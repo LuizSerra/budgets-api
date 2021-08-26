@@ -52,11 +52,11 @@ public class UsuarioController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> criar(@Valid @RequestBody Usuario usuario, HttpServletResponse response) {
+	public ResponseEntity<UsuarioDTO> criar(@Valid @RequestBody Usuario usuario, HttpServletResponse response) {
 		Usuario usuarioCriado = usuarioService.criar(usuario);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
 				.buildAndExpand(usuarioCriado.getId()).toUri();
-		return ResponseEntity.created(uri).body(usuarioCriado);
+		return ResponseEntity.created(uri).body(new UsuarioDTO(usuarioCriado));
 	}
 	
 	@PutMapping("/{id}")

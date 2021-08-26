@@ -29,8 +29,6 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String token =  extraiToken(request);
 		boolean tokenValido = this.tokenService.isValidToken(token);
-		System.out.println(token);
-		System.out.println(tokenValido);
 		if(tokenValido) autenticar(token);
 		
 		filterChain.doFilter(request, response);

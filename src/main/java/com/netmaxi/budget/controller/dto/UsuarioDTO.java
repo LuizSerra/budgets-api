@@ -14,7 +14,6 @@ public class UsuarioDTO {
 	private Long id;
 	private String nome;
 	private String email;
-	private String senha;
 	private boolean ativo;
 	private List<Papel> papeis;
 	private Set<Orcamento> orcamentos;
@@ -24,7 +23,6 @@ public class UsuarioDTO {
 		this.id = usuario.getId();
 		this.nome = usuario.getNome();
 		this.email = usuario.getEmail();
-		this.senha = usuario.getSenha();
 		this.ativo = usuario.isAtivo();
 		this.papeis = usuario.getPapeis();
 		this.orcamentos = usuario.getOrcamentos();
@@ -40,10 +38,6 @@ public class UsuarioDTO {
 
 	public String getEmail() {
 		return email;
-	}
-
-	public String getSenha() {
-		return senha;
 	}
 
 	public boolean isAtivo() {

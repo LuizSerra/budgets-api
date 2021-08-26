@@ -3,6 +3,7 @@ package com.netmaxi.budget.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,8 @@ public class Servico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
-	@Size(min = 3, max = 50)
+	@Size(min = 3, max = 150)
+	@Column(unique = true)
 	private String nome;
 	@Size(min = 3, max = 200)
 	private String descricao;
