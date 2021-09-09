@@ -16,7 +16,7 @@
 ## :rocket: Sobre a API
 ## A proposta do app é criar, calcular e armazenar orçamentos de serviços.
 
-Um orçamento é composto por um ou mais serviços e deve não estar associado a um cliente. O valor total do orçamento é a soma dos valores dos serviços que o compõe.
+Um orçamento é composto por um ou mais serviços e deve estar associado a um cliente. O valor total do orçamento é a soma dos valores dos serviços que o compõe.
 
 O serviço deve possuir um nome, uma unidade padrão e um valor por unidade padrão, ou seja o valor unitário. (Ex: Serviço { Nome: pintura, Unidade: m², Valor_Unitário: 100}). Ao cadastrar um serviço deve ser possível selecionar unidade padrão que o representa, além de atribuir um nome, uma descrição (opcional) e o valor unitário, que é o valor de uma unidade da unidade padrão que o representa.
 
