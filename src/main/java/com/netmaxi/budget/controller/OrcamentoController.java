@@ -26,6 +26,8 @@ import com.netmaxi.budget.controller.dto.OrcamentoDTO;
 import com.netmaxi.budget.model.Orcamento;
 import com.netmaxi.budget.service.OrcamentoService;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @RestController
 @RequestMapping(path = "/orcamentos")
 public class OrcamentoController {
@@ -78,6 +80,7 @@ public class OrcamentoController {
 		return ResponseEntity.created(uri).body(orcamentoAtualizado);
 	}
 	
+	@ApiIgnore
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id){
 		orcamentoService.delete(id);

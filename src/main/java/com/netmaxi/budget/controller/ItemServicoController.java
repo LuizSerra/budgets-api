@@ -25,6 +25,8 @@ import com.netmaxi.budget.controller.dto.ItemServicoDTO;
 import com.netmaxi.budget.model.ItemServico;
 import com.netmaxi.budget.service.ItemServicoService;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @RestController
 @RequestMapping(path = "/itens")
 public class ItemServicoController {
@@ -73,6 +75,7 @@ public class ItemServicoController {
 		return ResponseEntity.created(uri).body(itemServicoCriado);
 	}
 	
+	@ApiIgnore
 	@DeleteMapping("/servico/{servId}/orcamento/{orcamId}")
 	public ResponseEntity<?> remover(@PathVariable Long servId, @PathVariable Long orcamId) {
 		return itemServicoService.delete(servId, orcamId); 
