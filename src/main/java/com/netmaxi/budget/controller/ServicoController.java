@@ -25,6 +25,8 @@ import com.netmaxi.budget.controller.dto.ServicoDTO;
 import com.netmaxi.budget.model.Servico;
 import com.netmaxi.budget.service.ServicoService;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @RestController
 @RequestMapping(path = "/servicos")
 public class ServicoController {
@@ -61,6 +63,7 @@ public class ServicoController {
 		return ResponseEntity.created(uri).body(servicoAtualizado);
 	}
 	
+	@ApiIgnore
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remover(@PathVariable Long id) {
 		return servicoService.delete(id);  

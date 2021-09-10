@@ -26,6 +26,8 @@ import com.netmaxi.budget.controller.dto.UsuarioDTO;
 import com.netmaxi.budget.model.Usuario;
 import com.netmaxi.budget.service.UsuarioService;
 
+import springfox.documentation.annotations.ApiIgnore;
+
 @RestController
 @RequestMapping(path = "/usuarios")
 public class UsuarioController {
@@ -78,6 +80,7 @@ public class UsuarioController {
 		return ResponseEntity.created(uri).body(usuarioAtualizado);
 	}
 	
+	@ApiIgnore
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remover(@PathVariable Long id) {
 		return usuarioService.delete(id); 
