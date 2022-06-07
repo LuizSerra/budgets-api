@@ -21,7 +21,7 @@ import com.netmaxi.budget.repository.UsuarioRepository;
 
 @Configuration
 @EnableWebSecurity
-@Profile("prod")
+@Profile(value = {"prod", "hml"})
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	
 	@Autowired

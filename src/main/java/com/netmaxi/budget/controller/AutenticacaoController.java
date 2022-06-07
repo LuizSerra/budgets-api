@@ -20,7 +20,7 @@ import com.netmaxi.budget.controller.form.LoginForm;
 
 @RestController
 @RequestMapping("/auth")
-@Profile("prod")
+@Profile(value = {"prod", "hml"})
 public class AutenticacaoController {
 
 	

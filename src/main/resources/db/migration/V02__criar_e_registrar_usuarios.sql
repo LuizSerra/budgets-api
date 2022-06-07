@@ -1,7 +1,7 @@
 CREATE TABLE `budget_bd`.`usuario` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `ativo` bit(1) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL UNIQUE,
   `nome` varchar(255) DEFAULT NULL,
   `senha` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
